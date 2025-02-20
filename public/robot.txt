@@ -4,6 +4,7 @@ Allow: /
 # Disallow admin or private areas if you add them in the future
 # Disallow: /admin/
 # Disallow: /private/
+Disallow: /qr
 
 # Sitemap location (you should create this when you have more pages)
 # Sitemap: https://strangerss.com/sitemap.xml

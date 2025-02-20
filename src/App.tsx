@@ -1,11 +1,39 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import "tailwindcss/index.css"
 import RainingLogo from './raining-logo.component';
+import { useSearchParams } from 'react-router';
+import { getAnalytics, logEvent } from 'firebase/analytics';
+
 
 
 function App() {
   const [email, setEmail] = useState('');
   const [acceptedPrivacy, setAcceptedPrivacy] = useState(false);
+  const [searchParams] = useSearchParams();
+  const analytics = getAnalytics();
+
+  useEffect(() => {
+    const utmSource = searchParams.get('utm_source');
+    const utmMedium = searchParams.get('utm_medium');
+    const utmCampaign = searchParams.get('utm_campaign');
+    const utmId = searchParams.get('utm_id');
+    const isQRCodeVisit =
+      utmSource === 'print' &&
+      utmMedium === 'qr_code' &&
+      utmCampaign === 'coming_soon' &&
+      utmId === '0';
+
+    if (isQRCodeVisit) {
+      logEvent(analytics, 'qr_code_visit', {
+        utm_source: utmSource,
+        utm_medium: utmMedium,
+        utm_campaign: utmCampaign,
+        utm_id: utmId,
+        landing_page: window.location.pathname,
+        timestamp: new Date().toISOString()
+      });
+    }
+  }, []);
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
