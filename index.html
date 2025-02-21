@@ -26,16 +26,16 @@
   <meta name="msapplication-square310x310logo" content="mstile-310x310.png" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>strangerss - date you #offline | modern dating app</title>
+  <title>strangerss - date you #offline | dating app</title>
   <meta name="description"
-    content="strangerss is a modern dating app that helps you meet people offline. Join our community and discover meaningful connections in the real world." />
+    content="strangerss is a dating app that helps you meet people offline. Join our community and discover meaningful connections in the real world." />
   <meta name="keywords" content="dating app, offline dating, real world dating, meaningful connections, strangerss" />
   <meta name="author" content="strangerss">
   <link rel="alternate" hreflang="en" href="https://strangerss.com">
 
   <meta property="og:title" content="strangerss - date you #offline" />
   <meta property="og:description"
-    content="Join strangerss and discover meaningful connections in the real world. Modern dating app focused on offline meetings." />
+    content="Join strangerss and discover meaningful connections in the real world. Dating app focused on offline meetings." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://strangerss.com" />
   <!-- TODO: add image -->
@@ -45,7 +45,7 @@
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="strangerss - date you #offline" />
   <meta name="twitter:description"
-    content="Join strangerss and discover meaningful connections in the real world. Modern dating app focused on offline meetings." />
+    content="Join strangerss and discover meaningful connections in the real world. Dating app focused on offline meetings." />
   <!-- TODO: add image -->
   <meta name="twitter:image" content="https://strangerss.com/twitter-image.jpg" />
   <meta name="twitter:image:alt" content="strangerss dating app logo and tagline" />
@@ -77,9 +77,10 @@
   default-src 'self';
   style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
   font-src 'self' https://fonts.gstatic.com; 
-  script-src 'self' 'unsafe-inline' https://www.googletagmanager.com;
+  script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google.com https://www.gstatic.com;
   img-src 'self' data: https:;
-  connect-src 'self' https://firebase.googleapis.com https://firebaseinstallations.googleapis.com https://region1.google-analytics.com/;
+  connect-src 'self' https://firebase.googleapis.com https://firebaseinstallations.googleapis.com https://region1.google-analytics.com https://firestore.googleapis.com https://content-firebaseappcheck.googleapis.com;
+  frame-src 'self' https://www.google.com;
 ">
   <style>
     .akshar-400-normal {

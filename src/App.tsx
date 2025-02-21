@@ -2,15 +2,18 @@ import { useEffect, useState } from 'react';
 import "tailwindcss/index.css"
 import RainingLogo from './raining-logo.component';
 import { useSearchParams } from 'react-router';
-import { getAnalytics, logEvent } from 'firebase/analytics';
-
+import { logEvent } from 'firebase/analytics';
+import { doc, setDoc } from 'firebase/firestore';
+import { analytics, db } from './firebase';
 
 
 function App() {
   const [email, setEmail] = useState('');
   const [acceptedPrivacy, setAcceptedPrivacy] = useState(false);
-  const [searchParams] = useSearchParams();
-  const analytics = getAnalytics();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [showPopup, setShowPopup] = useState(false);
+  const [popupMessage, setPopupMessage] = useState('');
+  const [isError, setIsError] = useState(false);
 
   useEffect(() => {
     const utmSource = searchParams.get('utm_source');
@@ -32,18 +35,88 @@ function App() {
         landing_page: window.location.pathname,
         timestamp: new Date().toISOString()
       });
+      setSearchParams({});
     }
   }, []);
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
-    console.log('Form submitted:', { email, acceptedPrivacy });
-    // Add your submission logic here
+    if (!email || !acceptedPrivacy) {
+      logEvent(analytics, 'waitlist_validation_error', {
+        error_type: !email ? 'missing_email' : 'missing_privacy_acceptance',
+        timestamp: new Date().toISOString()
+      });
+      setIsError(true);
+      setPopupMessage('Please enter your email and accept the privacy policy');
+      setShowPopup(true);
+      return;
+    }
+
+    const request = {
+      email,
+      acceptedPrivacy,
+      timestamp: new Date().toISOString(),
+      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+      userAgent: navigator.userAgent,
+      language: navigator.language,
+      lanugages: navigator.languages,
+    }
+
+    try {
+      logEvent(analytics, 'waitlist_join_attempt', {
+        timestamp: new Date().toISOString()
+      });
+
+      await setDoc(doc(db, "users", email), request);
+      
+      logEvent(analytics, 'waitlist_join_success', {
+        timestamp: new Date().toISOString()
+      });
+
+      setIsError(false);
+      setPopupMessage('Thank you for joining our waitlist! We will notify you when we launch our app. If you wish to be removed, please contact us on any social media.');      
+      setEmail('');
+      setAcceptedPrivacy(false);
+
+    } catch (e) {
+      logEvent(analytics, 'waitlist_join_error', {
+        error_message: (e as Error)?.message || 'Unknown error',
+        timestamp: new Date().toISOString()
+      });
+      setIsError(true);
+      setPopupMessage('Something went wrong. Please try again later.');
+      setShowPopup(true);
+    }
   };
 
   return (
     <>
       <RainingLogo />
+      {showPopup && (
+        <div className="fixed inset-0 bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-black border border-gray-700 rounded-lg p-6 max-w-sm w-full mx-4">
+            <div className={`text-center mb-4 ${isError ? 'text-red-500' : 'text-green-500'}`}>
+              {isError ? (
+                <svg className="w-12 h-12 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              ) : (
+                <svg className="w-12 h-12 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              )}
+              <p className="text-lg font-semibold text-white">{popupMessage}</p>
+            </div>
+            <button
+              onClick={() => setShowPopup(false)}
+              className="w-full bg-white text-black rounded-md py-2 px-4 hover:bg-gray-200 transition-colors"
+            >
+              OK
+            </button>
+          </div>
+        </div>
+      )}
+      
       <div className="akshar-400-normal bg-black text-white min-h-screen flex flex-col items-center justify-center p-6">
         <main className="max-w-md w-full space-y-8 rounded-md p-4 bg-black relative z-2 shadow-[0_0_50px_20px_rgba(0,0,0,1)]">
 
