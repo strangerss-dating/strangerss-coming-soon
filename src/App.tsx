@@ -13,6 +13,7 @@ function App() {
   const [showPopup, setShowPopup] = useState(false);
   const [popupMessage, setPopupMessage] = useState('');
   const [isError, setIsError] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     const utmSource = searchParams.get('utm_source');
@@ -61,6 +62,7 @@ function App() {
       lanugages: navigator.languages,
     }
 
+    setIsSubmitting(true);
     try {
       logEvent(analytics, 'waitlist_join_attempt', {
         timestamp: new Date().toISOString()
@@ -73,8 +75,10 @@ function App() {
       });
 
       setIsError(false);
-      setPopupMessage(`Welcome to our waitlist! 
-We'll notify you as soon as our app launches. To stay updated, follow us on social media. 
+      setPopupMessage(`Welcome to our waitlist!
+
+We'll notify you as soon as our app launches. 
+To stay updated, follow us on social media. 
 Need to unsubscribe? Simply reach out to us on any of our social channels.`);
       setEmail('');
       setAcceptedPrivacy(false);
@@ -87,6 +91,8 @@ Need to unsubscribe? Simply reach out to us on any of our social channels.`);
       setIsError(true);
       setPopupMessage('Something went wrong. Please try again later.');
       setShowPopup(true);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -105,7 +111,7 @@ Need to unsubscribe? Simply reach out to us on any of our social channels.`);
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
               )}
-              <p className="text-lg font-semibold text-white">{popupMessage}</p>
+              <p className="text-lg font-semibold text-white whitespace-pre-line">{popupMessage}</p>
             </div>
             <button
               onClick={() => setShowPopup(false)}
@@ -158,9 +164,10 @@ Need to unsubscribe? Simply reach out to us on any of our social channels.`);
         <div>
           <button
             type="submit"
-            className="uppercase group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-black bg-white hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white"
+            disabled={isSubmitting}
+            className={`uppercase group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-black bg-white hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white ${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`}
           >
-            Be notified
+            {isSubmitting ? 'Submitting...' : 'Be notified'}
           </button>
         </div>
       </form>
