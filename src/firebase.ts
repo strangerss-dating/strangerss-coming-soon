@@ -12,6 +12,13 @@ const firebaseConfig = {
     appId: "1:991336639315:web:f3e25a395132b8a7788fa6",
 };
 
+// Add the following code to see the Firebase App Check debug token in the console
+// declare global {
+//     interface Window {
+//         FIREBASE_APPCHECK_DEBUG_TOKEN: boolean;
+//     }
+// }
+// self.FIREBASE_APPCHECK_DEBUG_TOKEN = true;
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics();
 const db = getFirestore(app);

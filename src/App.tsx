@@ -74,10 +74,12 @@ function App() {
       });
 
       setIsError(false);
-      setPopupMessage('Thank you for joining our waitlist! We will notify you when we launch our app. If you wish to be removed, please contact us on any social media.');      
+      setPopupMessage(`Welcome to our waitlist! 
+We'll notify you as soon as our app launches. To stay updated, follow us on social media. 
+Need to unsubscribe? Simply reach out to us on any of our social channels.`);      
       setEmail('');
       setAcceptedPrivacy(false);
-
+      setShowPopup(true);
     } catch (e) {
       logEvent(analytics, 'waitlist_join_error', {
         error_message: (e as Error)?.message || 'Unknown error',
