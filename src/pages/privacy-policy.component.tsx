@@ -5,7 +5,7 @@ export const PrivacyPolicyComponent = () => (
         {/* Privacy Policy */}
         <p className="whitespace-pre-line">
             {`PRIVACY POLICY
-Last updated 21 February 2025
+Last updated February 21, 2025
 
 
 
