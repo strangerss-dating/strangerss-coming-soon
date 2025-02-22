@@ -151,7 +151,7 @@ Need to unsubscribe? Simply reach out to us on any of our social channels.`);
               required
               checked={acceptedPrivacy}
               onChange={(e) => setAcceptedPrivacy(e.target.checked)}
-              className="h-5 w-5 rounded bg-white border-gray-700 checked:bg-white checked:text-black focus:ring-2 focus:ring-white appearance-none relative before:content-['✓'] before:hidden checked:before:block before:absolute before:text-black before:font-sans before:text-lg before:top-[-2px] before:left-[2px]" />
+              className="h-4 w-4 border-gray-700 rounded accent-black focus:ring-2 focus:ring-white" />
           </div>
           <div className="ml-3 text-sm">
             <label htmlFor="privacy" className="font-medium text-gray-300">
