@@ -34,7 +34,7 @@ export const PageWrapperComponent = ({ children }: { children: ReactNode}) => {
             </div>
 
             {showCookieBanner && (
-                <div className="fixed bottom-0 left-0 right-0 bg-black border-t border-gray-700 p-4 z-50">
+                <div className="fixed bottom-0 left-0 right-0 bg-black border-t border-gray-700 p-4 z-50 shadow-[0_0_50px_20px_rgba(0,0,0,1)]">
                     <div className="max-w-screen-xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
                         <div className="text-sm text-gray-300">
                             We use cookies to enhance your experience. By continuing to visit this site you agree to our use of cookies. Learn more in our{' '}
