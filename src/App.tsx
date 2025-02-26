@@ -32,8 +32,7 @@ function App() {
         utm_medium: utmMedium,
         utm_campaign: utmCampaign,
         utm_id: utmId,
-        timestamp: new Date().getTime(),
-        message_time: new Date().getTime()
+        message_time: new Date().toISOString()
       });
       setSearchParams({});
     }
@@ -43,9 +42,8 @@ function App() {
     e.preventDefault();
     if (!email || !acceptedPrivacy) {
       logEvent(analytics, 'waitlist_validation_error', {
-        error_type: !email ? 'missing_email' : 'missing_privacy_acceptance',
-        timestamp: new Date().getTime(),
-        message_time: new Date().getTime()
+        message_type: !email ? 'missing_email' : 'missing_privacy_acceptance',
+        message_time: new Date().toISOString()
       });
       setIsError(true);
       setPopupMessage('Please enter your email and accept the privacy policy');
@@ -56,8 +54,7 @@ function App() {
     const request = {
       email,
       acceptedPrivacy,
-      timestamp: new Date().getTime(),
-      message_time: new Date().getTime(),
+      timestamp: new Date().toISOString(),
       timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
       userAgent: navigator.userAgent,
       language: navigator.language,
@@ -67,15 +64,13 @@ function App() {
     setIsSubmitting(true);
     try {
       logEvent(analytics, 'waitlist_join_attempt', {
-        timestamp: new Date().getTime(),
-        message_time: new Date().getTime()
+        message_time: new Date().toISOString()
       });
 
       await setDoc(doc(db, "users", email), request);
 
       logEvent(analytics, 'waitlist_join_success', {
-        timestamp: new Date().getTime(),
-        message_time: new Date().getTime()
+        message_time: new Date().toISOString()
       });
 
       setIsError(false);
@@ -89,9 +84,8 @@ Need to unsubscribe? Simply reach out to us on any of our social channels.`);
       setShowPopup(true);
     } catch (e) {
       logEvent(analytics, 'waitlist_join_error', {
-        error_message: (e as Error)?.message?.slice(0, 100) || 'Unknown error',
-        timestamp: new Date().getTime(),
-        message_time: new Date().getTime()
+        firebase_error_value: (e as Error)?.message?.slice(0, 100) || 'Unknown error',
+        message_time: new Date().toISOString()
       });
       setIsError(true);
       setPopupMessage('Something went wrong. Please try again later.');
