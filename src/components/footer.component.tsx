@@ -8,6 +8,7 @@ export const FooterComponent = () => (
         <nav className="flex justify-center space-x-6 pt-8" aria-label="Social media">
             {/* Facebook */}
             <a
+                target="_blank"
                 href="https://www.facebook.com/strangerssdating"
                 rel="noopener noreferrer"
                 className="text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black p-1 rounded-full"
@@ -20,6 +21,7 @@ export const FooterComponent = () => (
 
             {/* Instagram */}
             <a
+                target="_blank"
                 href="https://www.instagram.com/strangerssdating"
                 rel="noopener noreferrer"
                 className="text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black p-1 rounded-full"
@@ -32,6 +34,7 @@ export const FooterComponent = () => (
 
             {/* Twitter/X */}
             <a
+                target="_blank"
                 href="https://x.com/strangerssapp"
                 rel="noopener noreferrer"
                 className="text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black p-1 rounded-full"
@@ -44,6 +47,7 @@ export const FooterComponent = () => (
 
             {/* TikTok */}
             <a
+                target="_blank"
                 href="https://www.tiktok.com/@strangerssdating"
                 rel="noopener noreferrer"
                 className="text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black p-1 rounded-full"
